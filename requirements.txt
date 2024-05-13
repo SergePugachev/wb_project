@@ -1,0 +1,12 @@
+gradio==4.29.0
+torchvision==0.17.0
+torch==2.2.0
+requests==2.31.0
+pillow==10.3.0
+nltk==3.8.1
+transformers==4.40.2
+easyocr==1.7.1
+pymystem3==0.2.0
+catboost==1.2.5
+numpy==1.26.4
+urllib3==2.2.1
