@@ -3,10 +3,9 @@ from model_vit import result_vit
 from model_bert import result_bert
 from model_cat import result_cat
 
-
-#fhdkf
 vit = gr.Interface(fn=result_vit, inputs=gr.Image(type="numpy"),
-                   outputs=[gr.Number(label="допустимое", precision=5), gr.Number(label="недопустимое", precision=5)])
+                   outputs=[gr.Number(label="допустимое", precision=5),
+                            gr.Number(label="недопустимое", precision=5)])
 
 bert = gr.Interface(fn=result_bert, inputs=gr.Image(type="numpy"),
                     outputs=[gr.Textbox(label="распознанный текст", lines=3),

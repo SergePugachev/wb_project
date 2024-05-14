@@ -12,14 +12,17 @@ nltk.download('stopwords')
 punc = list(punctuation)
 punc.remove('@')
 punc.remove('$')
-punc += [' ', '\n']
-stop_list = stopwords.words('russian')
+punc += [' ', '\n'] # Список пунктуации
+stop_list = stopwords.words('russian') # Список стоп слов
 
 reader = easyocr.Reader(['ru', 'en'])
 mystem = Mystem()
 
-
 def ocr(img):
+    """
+    Функция принимает на вход изображение, с помощью EasyOCR считывает текст, затем лемматизирует его,
+    убирает стоп слова, пунктуацию и возвращает получившийся текст
+    """
     words = []
     list_text_from_img = reader.readtext(img, detail=0)
     text = " ".join(list_text_from_img)
@@ -31,9 +34,7 @@ def ocr(img):
     words = " ".join(words)
     return words
 
-
 device = torch.device("cpu")
-
 
 bert_pretrained = transformers.AutoModel.from_pretrained('DeepPavlov/rubert-base-cased-sentence',
                                                          resume_download=None)
@@ -45,7 +46,6 @@ for param in bert_pretrained.parameters():
 
 
 class BertArch(nn.Module):
-
     def __init__(self, bert):
         super(BertArch, self).__init__()
         self.bert = bert
@@ -72,15 +72,18 @@ model_bert.load_state_dict(torch.load('bert_weights.pt', map_location=torch.devi
 
 
 def result_bert(img):
+    """
+    Функция принимает на вход изображение, с помощью функции ocr получает обработанный текст, токенизирует его,
+    классифицирует с помощью Bert и возвращает текст и результаты классификации в виде вероятностей класса
+    """
     review_text = ocr(img)
     tokens = tokenizer.encode_plus(
         review_text,
         max_length=50,
         padding='max_length',
         truncation=True,
-        return_tensors='pt',
+        return_tensors='pt'
     )
-
     input_ids = tokens['input_ids'].to(device)
     attention_mask = tokens['attention_mask'].to(device)
     pred_logits_tensor = model_bert(input_ids, attention_mask)

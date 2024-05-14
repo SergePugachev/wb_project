@@ -6,14 +6,13 @@ import numpy as np
 import torchvision
 from torch import nn, optim
 
-
+# Трансформации для изображений
 transforms = transforms.Compose([
     transforms.Resize((384, 384)),
     transforms.ToTensor()
 ])
 
 device = torch.device("cpu")
-
 
 model_vit = torchvision.models.vit_b_16(weights=torchvision.models.ViT_B_16_Weights.IMAGENET1K_SWAG_E2E_V1).to(device)
 for param in model_vit.parameters():
@@ -27,6 +26,10 @@ model_vit.load_state_dict(torch.load('vit_weights.pt', map_location=torch.device
 
 
 def result_vit(image):
+    """
+    Функция принимает на вход изображение, конвертирует его, затем пропускает через список трансформаций,
+    классифицирует его и возвращает результаты в виде вероятностей класса
+    """
     image = Image.fromarray(np.uint8(image)).convert('RGB')
     image = transforms(image)
     image = torch.unsqueeze(image, 0)
