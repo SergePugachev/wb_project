@@ -4,7 +4,7 @@ from model_bert import result_bert
 from model_cat import result_cat
 
 
-
+#fhdkf
 vit = gr.Interface(fn=result_vit, inputs=gr.Image(type="numpy"),
                    outputs=[gr.Number(label="допустимое", precision=5), gr.Number(label="недопустимое", precision=5)])
 
