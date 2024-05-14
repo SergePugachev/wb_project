@@ -3,7 +3,6 @@ from model_vit import result_vit
 from model_bert import result_bert
 from model_cat import result_cat
 
-'changes'
 
 
 vit = gr.Interface(fn=result_vit, inputs=gr.Image(type="numpy"),
